@@ -1,25 +1,32 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { observer } from 'mobx-react';
 import './App.css';
 
-class App extends Component {
+@observer class App extends Component {
+  handleAddTodo = e => {
+    e.preventDefault();
+
+    const text = this.form.text.value;
+    this.props.todoStore.addTodo(text);
+
+    this.form.reset();
+  };
+
   render() {
+    const { todoStore } = this.props;
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div className="app">
+        <h1>Todo list app</h1>
+        <form className="add-form" ref={el => this.form = el} onSubmit={this.handleAddTodo}>
+          <input className="add-form__text" name="text" />
+          <button type="submit">Add item</button>
+        </form>
+        <h3>Items:</h3>
+        <ul className="list">
+          {todoStore.todos.map(({ text }, index) => <li key={index}>{ text }</li>)}
+        </ul>
+        <p>All todos count: {todoStore.allTodosCount}</p>
+        <p>Completed todos count: {todoStore.completedTodosCount}</p>
       </div>
     );
   }
