@@ -12,13 +12,21 @@ export default class TodoStore {
   }
 
   addTodo(text) {
+    const itemsCount = this.todos.length;
+    const newTodoId = itemsCount > 0 ? this.todos[itemsCount - 1].id + 1 : 1;
+
     this.todos.push({
+      id: newTodoId,
       text,
       completed: false
     })
   }
 
-  static fromJs(initialTodos) {
+  toJS() {
+    return this.todos.slice();
+  }
+
+  static fromJS(initialTodos) {
     const store = new TodoStore();
     store.todos = initialTodos;
     return store;

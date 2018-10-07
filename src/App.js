@@ -23,7 +23,7 @@ import './App.css';
         </form>
         <h3>Items:</h3>
         <ul className="list">
-          {todoStore.todos.map(({ text }, index) => <li key={index}>{ text }</li>)}
+          {todoStore.todos.map(({ text, id }) => <li key={id}>{ text }</li>)}
         </ul>
         <p>All todos count: {todoStore.allTodosCount}</p>
         <p>Completed todos count: {todoStore.completedTodosCount}</p>
